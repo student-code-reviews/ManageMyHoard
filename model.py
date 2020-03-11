@@ -10,7 +10,7 @@ db = SQLAlchemy()
 # Model definitions
 
 class User(db.Model):
-    """User of ratings website."""
+    """User of MHH website"""
 
     __tablename__ = "users"
 
@@ -24,9 +24,8 @@ class User(db.Model):
     # inventory = db.relationship("Inventory",
     #                        backref=db.backref("inventory",
     #                                           order_by=user_id))
-    # projects = db.relationship("Project",
-    #                        backref=db.backref("projects",
-    #                                           order_by=user_id))
+    projects = db.relationship("Project", backref=db.backref("projects",
+                               order_by=user_id))
 
     def __repr__(self):
         return f"""<User user_id={self.user_id}
@@ -40,7 +39,7 @@ class User(db.Model):
 
 
 class Inventory(db.Model):
-    """Items - each item is a Movie with relevant information"""
+    """Table containing each item in inventory (whether tool or supply)"""
     __tablename__ = "inventory"
 
     inv_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
@@ -52,7 +51,7 @@ class Inventory(db.Model):
     count_per_package = db.Column(db.Integer, nullable=True)
     manufacturer = db.Column(db.String(40), nullable=True)
     size = db.Column(db.String(25), nullable = True)
-    picture_path = db.Column(db.String(100), nullable=True)
+    picture_path = db.Column(db.String(200), nullable=True)
     keywords = db.Column(db.String(500), nullable=True)
 
     user = db.relationship("User",
@@ -76,20 +75,24 @@ class Inventory(db.Model):
 
 
 class Project(db.Model):
-    """ Table containing a rating a particular user has given to a specific
-    movie
+    """ Table containing all the projects belonging to each user
     """
     __tablename__ = "projects"
 
     project_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey("users.user_id"))
-    name = db.Column(db.String(100), nullable=False)
+    name = db.Column(db.String(200), nullable=False)
     description = db.Column(db.String(1000), nullable=True)
     
     # Store the Path to the picture
     picture_path = db.Column(db.String(100), nullable=True)
     keywords = db.Column(db.String(500), nullable=True)
 
+    tool_list = db.Column(db.String(500), nullable=True)
+    supply_list = db.Column(db.String(500), nullable=True)
+    directions = db.Column(db.String(1500), nullable=True)
+    URL_link = db.Column(db.String(50), nullable=True)
+    
     # Define relationship to user
     # user = db.relationship("User",
     #                        backref=db.backref("users",
@@ -102,7 +105,11 @@ class Project(db.Model):
                    name={self.name}
                    description={self.description}
                    picture_path={self.picture_path}
-                   keywords={self.keywords}>"""
+                   keywords={self.keywords}
+                   tool_list={self.tool_list}
+                   supply_list={self.supply_list}
+                   directions={self.directions}
+                   URL_link={self.URL_link}>"""
 
 
 

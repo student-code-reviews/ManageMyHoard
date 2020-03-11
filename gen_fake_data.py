@@ -6,6 +6,8 @@ from model import Project
 from model import connect_to_db, db
 from server import app
 from pandas_ods_reader import read_ods
+import csv
+import random
 
 faker = Faker()
 
@@ -84,7 +86,7 @@ def load_inventory():
                                     "count_per_package", "size", "picture_path",
                                     "keywords" ])
 
-    print(len(df))
+    #print(len(df))
     i = 1
     while i < len(df):
         print(df.loc[i])
@@ -109,6 +111,123 @@ def load_inventory():
     db.session.commit()
 
 
+
+
+def load_projects():
+    """function to seed database with projects"""
+    # user Faker Module to generate some fake fields
+    faker = Faker()
+
+    names = ['hat','cowl', 'scarf', 'sweater', 'amigurumi dragon', "mittens"]
+
+
+    seed_tools = ["16\" circular needles", " 6mm crochet hook" "4 mm dpns",
+             "yarn needle", "scissors", "stitch markers"]
+    seed_supplies = ["150 yds super chunky yarn", "500 yds sockweight yarn",
+                "5 oz worsted weight yarn", "800 m of lace weight yarn"]
+    seed_URLS = ["http://www.example.com/","http://www.example.com/army/bead",
+            "http://www.example.org/",
+            "http://www.funkychickenknits.com/chickensweater",
+            "http://example.com/",
+            "https://agreement.example.com/",
+            "https://alarm.example.com/#bottle",
+            "https://wwww.knittinkitten/pawsitivelyperfectscarf"]
+
+    project_id = 0
+    # number of fake projects to create
+    num_projects = 4
+    num_users = 3
+
+    for i in range(num_users):
+        user_id = i + 1
+        
+        # # create the set # of projects for each user
+        for j in range(num_projects):
+            print("user_id",user_id)
+
+            project_id += 1
+            print("project_id",project_id)
+
+            name = random.choice(names)
+            print("name=",name)
+
+            description = faker.text()
+            print("description=", description)
+
+            picture_path = ""
+
+            seed_keywords1 = ["knit", "crochet"]
+            seed_keywords2 = ["worked_flat", "in-the-round"]
+            seed_keywords3 = ["unisex," "women" "men"]
+
+            keywords=[]
+            keywords.append(random.choice(seed_keywords1))
+            keywords.append(random.choice(seed_keywords2))
+            keywords.append(random.choice(seed_keywords3))
+
+            print("keywords=",keywords)
+
+            tool_list = []
+            num_tools = random.randrange(1,4)
+            
+            for k in range(num_tools):
+                # get a random choice from the seed tools list and append it to our
+                # list of tools for this fake project
+                tool_to_add = random.choice(seed_tools)
+                tool_list.append(tool_to_add)
+                k += 1
+            print("tools=",tool_list)
+
+            num_supplies = random.randrange(1,3)
+            supply_list = []
+
+            for s in range(num_supplies):
+                # get a random choice from the seed supplies list and append it to 
+                # our list of supplies for this fake project
+                
+                supply_list.append(random.choice(seed_supplies))
+                s += 1
+            print("supply_list=",supply_list)
+
+            desc_length = random.randrange(1,10)
+            # make a varying length text block for directions
+            directions = ""
+            for d in range(desc_length):
+                directions = directions + faker.text()
+            print("directions=",directions)
+
+            URL_link = random.choice(seed_URLS)
+            print("URL=",URL_link)
+            j +=1
+
+            #create the project object
+
+            project = Project(project_id=project_id,
+                              user_id=user_id,
+                              name=name,
+                              description=description,
+                              picture_path=picture_path,
+                              keywords=keywords,
+                              tool_list=tool_list,
+                              supply_list=supply_list,
+                              directions=directions,
+                              URL_link=URL_link)
+
+            # add the project item to the db session
+            db.session.add(project)
+
+        i += 1
+        db.session.commit()
+
+
+
+
+
+
+
+
+
+
 def set_val_user_id():
     """Set value for the next user_id after seeding database"""
 
@@ -130,5 +249,6 @@ if __name__ == "__main__":
     num_to_gen = 3
     load_users(num_to_gen)
     load_inventory()
+    load_projects()
     
     set_val_user_id()
