@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+  <title>Profile</title>
+{% block body %}
+
+<form class="profile" method="POST">
+
+  <h2 class="profile-heading">Profile</h2>
+
+  <div class="form-group">
+   
+   <div>
+       Name: {{ user.fname }} {{user.lname}}
+       <br>
+       Username: {{user.username}}
+
+       Email: {{ user.email }}
+       <br>
+       <br>
+    </div>
+    <div>
+       <table>
+         <tr>
+           <th>Projects</th>
+           <th>Description</th>
+           
+         </tr>
+         {% for project in projects %}
+           <tr>
+             <td>{{ project.name }}</td>
+             <td>{{ project.description }}</td>
+           </tr>
+         {% endfor %}
+       </table>
+   </div>
+  </div>
+
+</form>
+{% endblock %}

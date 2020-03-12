@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+  <title>Register</title>
+{% block body %}
+
+<form class="register" method="POST">
+
+  <h2 class="register-heading">Please fill in each field</h2>
+
+  <div class="form-group">
+    <form action="register" method="POST">
+      <div>
+        <label>
+          Email
+          <input type="email" name="email">
+        </label>
+      </div>
+
+      <div>
+        <label>
+          Password
+          <input type="password" name="password">
+        </label>
+      </div>
+      <div>
+        <button class="btn btn-primary btn-block" type="submit">Submit</button>
+      </div>
+    </form>
+   
+  </div>
+
+  <div class="form-group">
+    
+  </div>
+
+  
+
+</form>
+{% endblock %}

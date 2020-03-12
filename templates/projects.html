@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+  <title>Projects</title>
+{% block body %}
+
+<form class="projects" method="POST">
+
+  <h2 class="projects-heading">Projects</h2>
+
+  <div class="form-group">
+    <div>
+       <table>
+         <tr>
+           <th>Projects</th>
+           <th>Description</th>
+           
+         </tr>
+         {% for project in projects %}
+           <tr>
+             <td>{{ project.name }}</td>
+             <td>{{ project.description }}</td>
+           </tr>
+         {% endfor %}
+       </table>
+   </div>
+   
+  </div>
+
+  
+
+</form>
+{% endblock %}

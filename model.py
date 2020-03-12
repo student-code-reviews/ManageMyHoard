@@ -26,6 +26,8 @@ class User(db.Model):
     #                                           order_by=user_id))
     projects = db.relationship("Project", backref=db.backref("projects",
                                order_by=user_id))
+    inventory = db.relationship("Inventory", backref=db.backref("inventory",
+                                order_by=user_id))
 
     def __repr__(self):
         return f"""<User user_id={self.user_id}
@@ -44,7 +46,7 @@ class Inventory(db.Model):
 
     inv_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     user_id =  db.Column(db.Integer, db.ForeignKey("users.user_id"))
-    name = db.Column(db.String(100), nullable=False)
+    inv_name = db.Column(db.String(100), nullable=False)
     inv_type = db.Column(db.String(1), nullable=False)
     description = db.Column(db.String(1000), nullable=True)
     price = db.Column(db.Float(), nullable=True)
@@ -54,15 +56,15 @@ class Inventory(db.Model):
     picture_path = db.Column(db.String(200), nullable=True)
     keywords = db.Column(db.String(500), nullable=True)
 
-    user = db.relationship("User",
-                           backref=db.backref("users",
-                                              order_by=user_id))
+    # user = db.relationship("User",
+    #                        backref=db.backref("users",
+    #                                           order_by=user_id))
     
 
     def __repr__(self):
         return f"""<Inv inv_id={self.user_id}
                     user_id={self.user_id}
-                    name={self.name}
+                    inv_name={self.inv_name}
                     inv_type={self.inv_type}
                     description={self.description}
                     price={self.price}
@@ -81,6 +83,7 @@ class Project(db.Model):
 
     project_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey("users.user_id"))
+    status = db.Column(db.String(1), nullable=True)
     name = db.Column(db.String(200), nullable=False)
     description = db.Column(db.String(1000), nullable=True)
     
@@ -102,6 +105,7 @@ class Project(db.Model):
     def __repr__(self):
         return f"""<Project project_id={self.project_id}
                    user_id={self.user_id}
+                   status={self.status}
                    name={self.name}
                    description={self.description}
                    picture_path={self.picture_path}

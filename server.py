@@ -2,12 +2,15 @@
 """
 
 
-from flask import Flask, redirect, request, render_template, jsonify, session
-#from flask_debugtoolbar import DebugToolbarExtension
+from flask import Flask, redirect, request, flash, render_template, jsonify, session
+from flask_debugtoolbar import DebugToolbarExtension
 from jinja2 import StrictUndefined
+from model import connect_to_db, db, User, Project, Inventory
 
 app = Flask(__name__)
 
+# Required to use Flask sessions and the debug toolbar
+app.secret_key = "ProtectTheHoard"
 
 # This option will cause Jinja to throw UndefinedErrors if a value hasn't
 # been defined (so it more closely mimics Python's behavior)
@@ -28,21 +31,131 @@ app.jinja_env.auto_reload = True
 def index():
     """Show our index page."""
 
-    return render_template("index.html")
+    return render_template('index.html')
 
 @app.route('/index')
 def index2():
     """Show our index page."""
 
-    return render_template("index.html")
+    return render_template('index.html')
 
-
-@app.route("/login", methods=["GET"])
-def show_login():
+@app.route('/login_form')
+def login_form():
     """Bring the User to the login webpage."""
 
-    return render_template("login.html")
+    return render_template('login_form.html')
+
+
+@app.route('/login', methods=['POST'])
+def login():
+
+    """Validate email and password and update session."""
+
+    user_email = request.form.get('email')
+    user_password = request.form.get('password')
+
+    QUERY = User.query.filter_by(email=user_email).first()
+
+    if QUERY is None:
+        flash('User does not exist.')
+        return redirect('/login_form')
+
+    else:
+        QUERY = User.query.filter_by(email=user_email).first()
+
+        if QUERY.password == user_password:
+            session['user_id'] = QUERY.user_id
+            user_id = session['user_id']
+            flash('Login successful.')
+            return redirect(f'/user/{ user_id }')
+
+        else:
+            flash(f'Invalid password. {password}')
+            app.logger.info(f'Login unsuccessful: {user_email}')
+            return redirect('/login_form')
+    
+
+@app.route("/register", methods=['GET,POST'])
+def register():
+    """Register a new user"""
+    return render_template('register.html')
+
+@app.route('/user/<user_id>')
+def user_info(user_id):
+    """Display user info."""
+  
+    user = User.query.get(user_id)
+    inventory = user.inventory
+    projects = user.projects
+
+    return render_template('user_profile.html', user=user, inventory=inventory,
+                                             projects=projects)
+
+
+@app.route('/user', methods=['GET, POST'])
+def user():
+    """ NOTE TO SELF - do I NEED two routes???"""
+    user_id = session['user_id']
+    user = User.query.get(user_id)
+    return render_template('/user/user')
+
+@app.route('/add_inv')
+def add_inventory():
+    """ Add a new inventory item """
+    user = User.query.get(user_id)
+    return render_template('add_inventory.html', user)
+
+
+@app.route('/inventory')
+def view_inventory():
+    """ View all the inventory for a particular user"""
+    user_id = session['user_id']
+    user = User.query.get(user_id)
+    inventory = user.inventory
+    print(inventory)
+    
+    return render_template('inventory.html', user=user, inventory=inventory)
+
+
+@app.route('/add_project')
+def add_project():
+    """ Add a new project """
+    return render_template('add_project.html')
+
+@app.route('/projects')
+def view_projects():
+    user_id = session['user_id']
+    user = User.query.get(user_id)
+    projects = user.projects
+    """ Show all the projects for a particular user"""
+    return render_template('projects.html',user=user, projects=projects)
+
+@app.route('/search')
+def search():
+    """ Search for specific tools/supplies, and View all of the tools 
+    and supplies saved in the database- for the user that is logged in """
+    return render_template('search.html')
+
+# @app.route('/user')
+# def user_profile():
+#     """ Show the profile information of the person logged in"""
+#     return render_template('user_profile.html')
+
 
 
 if __name__ == "__main__":
+
+    # We have to set debug=True here, since it has to be True at the
+    # point that we invoke the DebugToolbarExtension
+    app.debug = True
+    app.config["DEBUG_TB_INTERCEPT_REDIRECTS"] = False
+
+    # make sure templates, etc. are not cached in debug mode
+    app.jinja_env.auto_reload = app.debug
+
+    connect_to_db(app)
+
+    # Use the DebugToolbar
+    DebugToolbarExtension(app)
+
     app.run(debug=True, port=5000, host="0.0.0.0")

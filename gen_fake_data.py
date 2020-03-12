@@ -8,6 +8,7 @@ from server import app
 from pandas_ods_reader import read_ods
 import csv
 import random
+import pdb
 
 faker = Faker()
 
@@ -67,21 +68,21 @@ def load_inventory():
     """
     path = "inventory.ods"
 
-    # load a sheet based on its index (1 based)
-    sheet_idx = 1
-    df = read_ods(path, sheet_idx)
+    # # load a sheet based on its index (1 based)
+    # sheet_idx = 1
+    # df = read_ods(path, sheet_idx)
 
-    # load a sheet based on its name
-    sheet_name = "Sheet1"
-    df = read_ods(path, sheet_name)
+    # # load a sheet based on its name
+    # sheet_name = "Sheet1"
+    # df = read_ods(path, sheet_name)
 
-    # load a file that does not contain a header row
-    # if no columns are provided, they will be numbered
-    df = read_ods(path, 1, headers=False)
+    # # load a file that does not contain a header row
+    # # if no columns are provided, they will be numbered
+    # df = read_ods(path, 1, headers=False)
 
     # load a file and provide custom column names
     # if headers is True (the default), the header row will be overwritten
-    df = read_ods(path, 1, columns=["user_id", "inv_id", "name", "inv_type",
+    df = read_ods(path, 1, columns=["user_id", "inv_id", "inv_name", "inv_type",
                                     "description", "manufacturer", "price",
                                     "count_per_package", "size", "picture_path",
                                     "keywords" ])
@@ -89,12 +90,12 @@ def load_inventory():
     #print(len(df))
     i = 1
     while i < len(df):
-        print(df.loc[i])
-        #print(df.loc[i].inv_type)
         
+        
+        pdb.set_trace()
         inventory_item = Inventory(inv_id=df.loc[i].inv_id,
                                    user_id=int(df.loc[i].user_id),
-                                   name=df.loc[i].name,
+                                   inv_name=df.loc[i].inv_name,
                                    inv_type=df.loc[i].inv_type,
                                    description=df.loc[i].description,
                                    price=df.loc[i].price,
@@ -104,7 +105,7 @@ def load_inventory():
                                    picture_path=df.loc[i].picture_path,
                                    keywords=df.loc[i].keywords)
         i += 1
-        #print(inventory_item)
+        print(inventory_item)
         # Add the User object to the session so it will be stored.
         db.session.add(inventory_item)
         
