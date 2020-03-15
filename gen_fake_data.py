@@ -133,6 +133,8 @@ def load_projects():
             "https://agreement.example.com/",
             "https://alarm.example.com/#bottle",
             "https://wwww.knittinkitten/pawsitivelyperfectscarf"]
+    # i = In progress, q = queued, c = complete
+    seed_status = ["i", "q", "c"]
 
     project_id = 0
     # number of fake projects to create
@@ -151,6 +153,8 @@ def load_projects():
 
             name = random.choice(names)
             print("name=",name)
+
+            status = random.choice(seed_status)
 
             description = faker.text()
             print("description=", description)
@@ -205,6 +209,7 @@ def load_projects():
 
             project = Project(project_id=project_id,
                               user_id=user_id,
+                              status=status,
                               name=name,
                               description=description,
                               picture_path=picture_path,

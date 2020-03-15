@@ -8,8 +8,8 @@ from jinja2 import StrictUndefined
 from model import connect_to_db, db, User, Project, Inventory
 
 app = Flask(__name__)
-
 # Required to use Flask sessions and the debug toolbar
+
 app.secret_key = "ProtectTheHoard"
 
 # This option will cause Jinja to throw UndefinedErrors if a value hasn't
@@ -31,12 +31,24 @@ app.jinja_env.auto_reload = True
 def index():
     """Show our index page."""
 
+    # check to see if user is logged in
+
+    # if not display the index page
+
+    # if there is a user_id in session
+    # display the user profile page?
+
     return render_template('index.html')
 
 @app.route('/index')
 def index2():
     """Show our index page."""
+    # check to see if user is logged in
 
+    # if not display the index page
+
+    # if there is a user_id in session
+    # display the user profile page?
     return render_template('index.html')
 
 @app.route('/login_form')
@@ -48,6 +60,9 @@ def login_form():
 
 @app.route('/login', methods=['POST'])
 def login():
+
+    #check to see if user_id is in session
+
 
     """Validate email and password and update session."""
 
@@ -66,6 +81,8 @@ def login():
         if QUERY.password == user_password:
             session['user_id'] = QUERY.user_id
             user_id = session['user_id']
+            #session["logged_in_customer_email"] = user_email
+            session['logged_in_user_id'] = user_id
             flash('Login successful.')
             return redirect(f'/user/{ user_id }')
 
@@ -74,11 +91,30 @@ def login():
             app.logger.info(f'Login unsuccessful: {user_email}')
             return redirect('/login_form')
     
+           
 
-@app.route("/register", methods=['GET,POST'])
+
+@app.route("/logout")
+def process_logout():
+    """Log user out."""
+
+    del session["user_id"]
+    flash("Logged out.")
+    return redirect("/")
+
+
+@app.route("/register")
 def register():
-    """Register a new user"""
+    """Display the form for user to fill out and register for an account."""
     return render_template('register.html')
+
+
+@app.route("/new_user", methods=['POST'])
+def new_user():
+    """Take the information from the register form and insert this User into 
+    the database"""
+
+    return render_template('/user')
 
 @app.route('/user/<user_id>')
 def user_info(user_id):
@@ -97,22 +133,45 @@ def user():
     """ NOTE TO SELF - do I NEED two routes???"""
     user_id = session['user_id']
     user = User.query.get(user_id)
-    return render_template('/user/user')
+    return render_template(f'/user/{user_id}')
 
-@app.route('/add_inv')
-def add_inventory():
-    """ Add a new inventory item """
+
+@app.route('/add_inv', methods=['POST'])
+def create_inv():
+    """ Display the form for the user to enter the required info for an 
+    inventory item """
+    user_id = session['user_id']
     user = User.query.get(user_id)
-    return render_template('add_inventory.html', user)
+    inventory = user.inventory
+
+    #get the info from the form
+
+    #create the inv item
+
+    #add to session
+
+    # commit?
+    return render_template('inventory.html', user=user, inventory=inventory)
+
+
+@app.route('/add_inv_form')
+def add_inv_form():
+    """ Add a new inventory item """
+    return render_template('inv_form.html')
 
 
 @app.route('/inventory')
 def view_inventory():
     """ View all the inventory for a particular user"""
+
     user_id = session['user_id']
     user = User.query.get(user_id)
+    
     inventory = user.inventory
-    print(inventory)
+    #get the tools for this user in the inventory table
+    # utools_query = db.session.query(inventory).filter_by(inv_type='t').all()
+    # usupplies_query = db.session.query(inventory).filter_by(inv_type='s').all()
+
     
     return render_template('inventory.html', user=user, inventory=inventory)
 
@@ -120,13 +179,14 @@ def view_inventory():
 @app.route('/add_project')
 def add_project():
     """ Add a new project """
-    return render_template('add_project.html')
+    return render_template('add_project.html', user)
 
 @app.route('/projects')
 def view_projects():
     user_id = session['user_id']
     user = User.query.get(user_id)
     projects = user.projects
+    
     """ Show all the projects for a particular user"""
     return render_template('projects.html',user=user, projects=projects)
 

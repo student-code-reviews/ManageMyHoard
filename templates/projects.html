@@ -11,13 +11,13 @@
        <table>
          <tr>
            <th>Projects</th>
-           <th>Description</th>
+           <th>Status</th>
            
          </tr>
          {% for project in projects %}
            <tr>
              <td>{{ project.name }}</td>
-             <td>{{ project.description }}</td>
+             <td>{{ project.status }}</td>
            </tr>
          {% endfor %}
        </table>

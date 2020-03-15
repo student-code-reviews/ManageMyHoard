@@ -5,44 +5,42 @@
 <form class="inventory" method="POST">
 
   <h2 class="inventory-heading">Inventory</h2>
+  
 
   <div class="form-group">
-     <div class="form-group">
-    <div>
-       <table>
-         
-         {% for inv_item in inventory %}
-           <tr>
-             <th>Item</th>
-             <th>Type</th>
-            </tr>
-            <tr>
-             <td>{{ inv_item.inv_name }}</td>
-             {% if inv_item.inv_type == 's' %}
-             <td>supply</td>
-             {% elif inv_item.inv_type == 't' %}
-             <td>tool</td>
-             {% else %}
-             <td>*</td>
-             {% endif %}
-           </tr>
-           <tr>
-             <table>
-                <tr>
-                    <td><b>Size</td><td>{{inv_item.size}}</td>
-                </tr>
-                
-             </table>
-           </tr>
-         {% endfor %}
-       </table>
-   </div>
-   
-  </div>
-   
+    
+    <div id=“resp-table”>
+      <div id=“resp-table-caption”>Tools</div>
+        {% for inv_item in inventory %}
+          {% if inv_item.inv_type == 't' %}
+            <div>
+              <b>Name: {{ inv_item.inv_name }}</b>
+            </div>
+            <div>Size: {{ inv_item.size }}</div>
+            <div>Price: {{ inv_item.price }}  Amount Per Package: {{inv_item.count_per_package}}</div>
+          {% endif %}
+          
+        {% endfor %}
+    </div>
+    <div id=“resp-table”>
+      <div id=“resp-table-caption”>Supplies</div>
+        {% for inv_item in inventory %}
+          {% if inv_item.inv_type == 's' %}
+            <div>
+              <b>Name: {{ inv_item.inv_name }}</b>
+            </div>
+            <div>Size: {{ inv_item.size }}</div>
+            <div>Price: {{ inv_item.price }}  Amount Per Package: {{inv_item.count_per_package}}</div>
+          {% endif %}
+          
+        {% endfor %}
+    </div>
   </div>
 
-  
+  <div>
+    <a href="/add_inv_form" class="btn btn-info" role="button">Add Inventory</a>
+    
+  </div>
 
 </form>
 {% endblock %}

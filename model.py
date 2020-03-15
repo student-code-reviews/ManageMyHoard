@@ -36,6 +36,10 @@ class User(db.Model):
                    password={self.password}
                    fname={self.name}
                    lname={self.name}>"""
+    # def create_user():
+    #     """ Method to take kwargs and create a user """
+    #     user = User()
+    #     return user
 
 
 

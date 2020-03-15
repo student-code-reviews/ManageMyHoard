@@ -8,22 +8,27 @@
 <body>
 
 <div class="navbar navbar-inverse navbar-static-top">
-    <div class="container">
-
-        <div class="navbar-header">
+    <div class="navbar-header">
             <img src="/static/img/mmh-sm-logo.png">
             <a class="navbar-brand" href="/">Manage My Hoard</a>
-        </div>
+    </div>
 
-        <div class="navbar-collapse collapse">
-            <a href="/inventory">Inventory</a>
-            <a href="/projects">Projects</a>
-            <a href="/user">Profile</a>
-            <ul class="nav navbar-nav navbar-right">
-                <li><a href="/login_form">Log In</a></li>
-            </ul>
-        </div>
-
+    <div class="navbar-collapse collapse">
+      <a href="/inventory">Inventory</a>
+      <a href="/projects">Projects</a>
+      <a href="/user">Profile</a>
+      <ul class="nav navbar-nav navbar-right">
+        </li>
+            {% if not session.get('user_id') %}
+                <li class="nav-item">
+                    <a class="nav-link" href="/login_form">Login</a>
+                </li>
+            {% else %}
+                <li class="nav-item">
+                    <a href="/logout" class="nav-link">Logout</a>
+                </li>
+            {% endif %}
+      </ul>
     </div>
 </div>
 
