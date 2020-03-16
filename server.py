@@ -43,7 +43,9 @@ def index():
 @app.route('/index')
 def index2():
     """Show our index page."""
+    user_id = session['user_id']
     # check to see if user is logged in
+
 
     # if not display the index page
 
@@ -81,7 +83,7 @@ def login():
         if QUERY.password == user_password:
             session['user_id'] = QUERY.user_id
             user_id = session['user_id']
-            #session["logged_in_customer_email"] = user_email
+            session["logged_in_customer_email"] = user_email
             session['logged_in_user_id'] = user_id
             flash('Login successful.')
             return redirect(f'/user/{ user_id }')
@@ -113,8 +115,24 @@ def register():
 def new_user():
     """Take the information from the register form and insert this User into 
     the database"""
+    email = request.form["email"]
+    password = request.form["password"]
+    fname = request.form["fname"]
+    lname= request.form["lname"]
+    username = request.form["username"]
 
-    return render_template('/user')
+    new_user = User(username=username,
+                    email=email,
+                    password=password,
+                    fname=fname,
+                    lname=lname)
+
+    db.session.add(new_user)
+    db.session.commit()
+
+    flash(f"User {email} added.")
+    return redirect("/")
+
 
 @app.route('/user/<user_id>')
 def user_info(user_id):
@@ -128,30 +146,57 @@ def user_info(user_id):
                                              projects=projects)
 
 
-@app.route('/user', methods=['GET, POST'])
+@app.route('/user')
 def user():
     """ NOTE TO SELF - do I NEED two routes???"""
     user_id = session['user_id']
     user = User.query.get(user_id)
-    return render_template(f'/user/{user_id}')
+
+    return redirect(f'/user/{user_id}')
 
 
 @app.route('/add_inv', methods=['POST'])
 def create_inv():
     """ Display the form for the user to enter the required info for an 
     inventory item """
-    user_id = session['user_id']
-    user = User.query.get(user_id)
-    inventory = user.inventory
-
     #get the info from the form
+    user_id = session['user_id']
+    inv_name = request.form['inv_name']
+    inv_type = request.form['inv_type']
+    description = request.form['description']
+    price = request.form['price']
+    count_per_package = request.form['count_per_package']
+    manufacturer = request.form['manufacturer']
+    size = request.form['size']
+    # Not using picture path yet - just initializing it as a blank
+    picture_path=""
+    # do we need to process keywords into a python list?
+    keywords = request.form['keywords']
 
+    
     #create the inv item
+    new_inv = Inventory(user_id=user_id,
+                        inv_name=inv_name,
+                        inv_type=inv_type,
+                        description=description,
+                        price=price,
+                        count_per_package=count_per_package,
+                        manufacturer=manufacturer,
+                        size=size,
+                        picture_path=picture_path,
+                        keywords=keywords)
 
-    #add to session
+    
 
-    # commit?
-    return render_template('inventory.html', user=user, inventory=inventory)
+    
+
+    #add to session & commit
+    db.session.add(new_inv)
+    db.session.commit()
+
+    flash(f"Inventory Item: {inv_name} added.")
+
+    return redirect('/inventory')
 
 
 @app.route('/add_inv_form')
@@ -166,7 +211,7 @@ def view_inventory():
 
     user_id = session['user_id']
     user = User.query.get(user_id)
-    
+
     inventory = user.inventory
     #get the tools for this user in the inventory table
     # utools_query = db.session.query(inventory).filter_by(inv_type='t').all()
@@ -175,11 +220,45 @@ def view_inventory():
     
     return render_template('inventory.html', user=user, inventory=inventory)
 
+@app.route('/add_proj_form')
+def add_proj_form():
+    return render_template('proj_form.html')
 
-@app.route('/add_project')
+
+@app.route('/add_project', methods=['POST'])
 def add_project():
     """ Add a new project """
-    return render_template('add_project.html', user)
+    user_id = session['user_id']
+    name = request.form['proj_name']
+    status = request.form['status']
+    description = request.form['description']
+    picture_path = ""
+    keywords = request.form['keywords']
+    tool_list = request.form['tool_list']
+    supply_list = request.form['supply_list']
+    directions = request.form['directions']
+    URL_link = request.form['URL_link']
+
+    app.logger.info("getting project data from form")
+    new_proj = Project(user_id=user_id,
+                       status=status,
+                       name=name,
+                       description=description,
+                       picture_path=picture_path,
+                       keywords=keywords,
+                       tool_list=tool_list,
+                       supply_list=supply_list,
+                       directions=directions,
+                       URL_link=URL_link)
+
+    #add to session & commit
+    db.session.add(new_proj)
+    db.session.commit()
+
+    flash(f"Project: {name} added.")
+
+    return redirect('/projects')
+
 
 @app.route('/projects')
 def view_projects():

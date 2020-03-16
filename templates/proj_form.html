@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+  <title>Projects</title>
+{% block body %}
+<h2 class="projects-heading">Add A Project</h2>
+<form class="add_project" action="add_project" method="POST">
+    <div>
+        <label for="proj-name-data">Name:</label>
+        <input type="text"
+               name="proj_name"
+               id="proj-name-data"
+               placeholder="Project Name">
+    </div>
+    <div>
+        <label for="proj-desc-data">Description:</label>
+        <input type="text"
+               name="description"
+               id="proj-desc-data"
+               placeholder="Description">
+    </div>
+    <div>
+        <label for="proj-status-data">Status:</label>
+        <select name="status">
+            <option value="q">Queued</option>
+            <option value="i">In Progress</option>
+            <option value="c">Complete</option>
+        </select>
+    </div>
+    <div>
+        <label for="proj-tools-data">Tools:</label>
+        <input type="text"
+               name="tool_list"
+               id="proj-tools-data"
+               placeholder="List of tools separated by commas">
+    </div>
+    <div>
+        <label for="proj-supplies-data">Supplies:</label>
+        <input type="text"
+               name="supply_list"
+               id="proj-supplies-data"
+               placeholder="List of supplies separated by commas">
+    </div>
+    <div>
+        <label for="proj-directions-data">Directions:</label>
+        <input type="text"
+               name="directions"
+               id="proj-directions-data">
+    </div>
+    <div>
+        <label for="proj-keyword-data">Keywords:</label>
+        <input type="text"
+               name="keywords"
+               id="proj-keywords-data">
+    </div>
+    <div>
+        <label for="proj-URL-data">URL:</label>
+        <input type="text"
+               name="URL_link"
+               id="proj-URL-data"
+               placeholder="URL to your project on the web">
+    </div>
+    <div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </div>  
+</form>
+{% endblock %}

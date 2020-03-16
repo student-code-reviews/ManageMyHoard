@@ -98,7 +98,7 @@ class Project(db.Model):
     tool_list = db.Column(db.String(500), nullable=True)
     supply_list = db.Column(db.String(500), nullable=True)
     directions = db.Column(db.String(1500), nullable=True)
-    URL_link = db.Column(db.String(50), nullable=True)
+    URL_link = db.Column(db.String(300), nullable=True)
     
     # Define relationship to user
     # user = db.relationship("User",

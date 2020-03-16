@@ -92,7 +92,7 @@ def load_inventory():
     while i < len(df):
         
         
-        pdb.set_trace()
+        #pdb.set_trace()
         inventory_item = Inventory(inv_id=df.loc[i].inv_id,
                                    user_id=int(df.loc[i].user_id),
                                    inv_name=df.loc[i].inv_name,
@@ -246,6 +246,30 @@ def set_val_user_id():
     db.session.execute(query, {'new_id': max_id + 1})
     db.session.commit()
 
+def set_val_inv_id():
+    """Set value for the next user_id after seeding database"""
+
+    # Get the Max user_id in the database
+    result = db.session.query(func.max(Inventory.inv_id)).one()
+    max_id = int(result[0])
+
+    # Set the value for the next user_id to be max_id + 1
+    query = "SELECT setval('inventory_inv_id_seq', :new_id)"
+    db.session.execute(query, {'new_id': max_id + 1})
+    db.session.commit()
+
+def set_val_proj_id():
+    """Set value for the next user_id after seeding database"""
+
+    # Get the Max user_id in the database
+    result = db.session.query(func.max(Project.project_id)).one()
+    max_id = int(result[0])
+
+    # Set the value for the next user_id to be max_id + 1
+    query = "SELECT setval('projects_project_id_seq', :new_id)"
+    db.session.execute(query, {'new_id': max_id + 1})
+    db.session.commit()
+
 
 if __name__ == "__main__":
     connect_to_db(app)
@@ -258,3 +282,5 @@ if __name__ == "__main__":
     load_projects()
     
     set_val_user_id()
+    set_val_inv_id()
+    set_val_proj_id()

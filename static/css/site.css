@@ -25,3 +25,30 @@ img.MHH-logo-lg {
   max-width: 330px;
   margin: 5em auto 0 auto;  /* TRBL */
 }
+
+/* responsive table */
+#resp-table {
+width: 100%;
+display: table;
+}
+
+#resp-table-header{
+display: table-header-group;
+background-color: gray;
+font-weight: bold;
+font-size: 25px;
+}
+
+.table-header-cell{
+display: table-cell;
+padding: 10px;
+text-align: justify;
+border-bottom: 1px solid black;
+}
+
+#resp-table-body{
+display: table-row-group;
+}
+.table-body-cell{
+display: table-cell;
+}

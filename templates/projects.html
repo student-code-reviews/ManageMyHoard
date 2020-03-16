@@ -1,31 +1,31 @@
 {% extends 'base.html' %}
   <title>Projects</title>
 {% block body %}
-
-<form class="projects" method="POST">
-
-  <h2 class="projects-heading">Projects</h2>
-
-  <div class="form-group">
-    <div>
-       <table>
-         <tr>
-           <th>Projects</th>
-           <th>Status</th>
-           
-         </tr>
-         {% for project in projects %}
+<h2 class="projects-heading">Projects</h2>
+<div style="overflow-x:auto;">
+  <form class="projects" method="POST">
+    <div class="form-group" style="overflow-x:auto;">
+      <div>
+         <table>
            <tr>
-             <td>{{ project.name }}</td>
-             <td>{{ project.status }}</td>
+             <th>Projects</th>
+             <th>Status</th>
+             
            </tr>
-         {% endfor %}
-       </table>
-   </div>
-   
+           {% for project in projects %}
+             <tr>
+               <td>{{ project.name }}</td>
+               <td>{{ project.status }}</td>
+             </tr>
+           {% endfor %}
+         </table>
+     </div>
+     
+    </div>
+  </form>
+  <div>
+    <a href="/add_proj_form" class="btn btn-info" role="button">Add A Project</a>
   </div>
+</div>
 
-  
-
-</form>
 {% endblock %}
