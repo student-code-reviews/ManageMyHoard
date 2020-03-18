@@ -8,6 +8,7 @@
       <h3>Tools</h3>
         
           <tr class="table-row">
+            <th>ID</th>
             <th>Name</th>
             <th>Size</th>
             <th>Price</th>
@@ -16,6 +17,7 @@
             {% for inv_item in inventory %}
               {% if inv_item.inv_type == 't' %}
                 <tr>
+                  <td><a href="/view_inv_item/{{ inv_item.inv_id}}">{{ inv_item.inv_id}}</a></td>
                   <td>{{ inv_item.inv_name }}</td>
                   <td>{{ inv_item.size }}</td>
                   <td>{{ inv_item.price }}</td>

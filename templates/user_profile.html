@@ -10,27 +10,28 @@
    
    <div>
       <div>
-        <p>Name: {{ user.fname }} {{user.lname}}</p>
+        <p><b>Name:</b> {{ user.fname }} {{user.lname}}</p>
       </div>
       <div>
-        <p>Username: {{user.username}}</p>
+        <p><b>Username:</b> {{user.username}}</p>
       </div>
       <div>
-        <p>Email: {{ user.email }}</p>
+        <p><b>Email:</b> {{ user.email }}</p>
       </div>
-       <hr>
-       <hr>
     </div>
-    <div>
+
+    <div class="containter">
       <table class="table">
         <tr>
           <th>Projects</th>
           <th>Status</th>
+          <th>Description</th>
         </tr>
         {% for project in projects %}
         <tr>
           <td>{{ project.name }}</td>
           <td>{{ project.status }}</td>
+          <td>{{ project.description }}</td>
         </tr>
         {% endfor %}
       </table>
