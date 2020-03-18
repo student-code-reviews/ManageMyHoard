@@ -9,33 +9,69 @@
 
   <div class="form-group">
     
-    <div id=“resp-table”>
-      <div id=“resp-table-caption”>Tools</div>
-        {% for inv_item in inventory %}
-          {% if inv_item.inv_type == 't' %}
-            <div>
-              <b>Name: {{ inv_item.inv_name }}</b>
-            </div>
-            <div>Size: {{ inv_item.size }}</div>
-            <div>Price: {{ inv_item.price }}  Amount Per Package: {{inv_item.count_per_package}}</div>
-          {% endif %}
+    <div id="resp-table" style="overflow-x:auto;">
+      <div id="resp-table-caption">Tools</div>
+        <div id="resp-table-header">
+          <div class="table-header-cell">
+          Name
+          </div>
+          <div class="table-header-cell">
+          Size
+          </div>
+          <div class="table-header-cell">
+          Price
+          </div>
+          <div class="table-header-cell">
+          Amt/Pkg
+          </div>
+
+        </div>
+        <div id="resp-table-body">
+
+          {% for inv_item in inventory %}
+            {% if inv_item.inv_type == 't' %}
+              <div class="resp-table-row">
+                <div class="table-body-cell">{{ inv_item.inv_name }}</div>
+                <div class="table-body-cell">{{ inv_item.size }}</div>
+                <div class="table-body-cell">{{ inv_item.price }}</div>
+                <div class="table-body-cell">{{inv_item.count_per_package}}</div>
+              </div>
+            {% endif %}
           
-        {% endfor %}
+          {% endfor %}
+        </div>
     </div>
-    <div id=“resp-table”>
-      <div id=“resp-table-caption”>Supplies</div>
+    <div><br></div>
+    <div id="resp-table">
+      <div id="resp-table-caption">Supplies</div>
+        
+        <div id="resp-table-header">
+          <div class="table-header-cell">
+          Name
+          </div>
+          <div class="table-header-cell">
+          Size
+          </div>
+          <div class="table-header-cell">
+          Price
+          </div>
+          <div class="table-header-cell">
+          Amt/Pkg
+          </div>
+        </div>
         {% for inv_item in inventory %}
           {% if inv_item.inv_type == 's' %}
-            <div>
-              <b>Name: {{ inv_item.inv_name }}</b>
+            <div class="resp-table-row">
+              <div class="table-body-cell">{{ inv_item.inv_name }}</div>
+              <div class="table-body-cell">{{ inv_item.size }}</div>
+              <div class="table-body-cell">{{ inv_item.price }}</div>
+              <div class="table-body-cell">{{inv_item.count_per_package}}</div>
             </div>
-            <div>Size: {{ inv_item.size }}</div>
-            <div>Price: {{ inv_item.price }}  Amount Per Package: {{inv_item.count_per_package}}</div>
           {% endif %}
           
         {% endfor %}
+      </div>
     </div>
-  </div>
 
   <div>
     <a href="/add_inv_form" class="btn btn-info" role="button">Add Inventory</a>

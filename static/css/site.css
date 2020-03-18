@@ -3,6 +3,12 @@
 
 /* Style our MHH nav bar and logo. */
 
+/* Add a blue background color to the top navigation */
+div.topnav {
+  background-color: #00cccc;
+  overflow: hidden;
+}
+
 div.navbar-header img {
     width: 30px;
     float: left;
@@ -30,6 +36,13 @@ img.MHH-logo-lg {
 #resp-table {
 width: 100%;
 display: table;
+}
+
+.resp-table-title{
+display: table-caption;
+text-align: center;
+font-weight: bold;
+font-size: larger;
 }
 
 #resp-table-header{

@@ -1,34 +1,27 @@
 {% extends 'base.html' %}
-  <title>Login</title>
+ <title>Homepage</title>
 {% block body %}
 <div class="container">
-  <row>
-    <div>
-
+  <h1 class="page-header">Manage My Hoard</h1>
+  <div>
       <img src="/static/img/MMH_lp_logo.JPG" class="MHH-logo-lg">
+  </div>
 
-    </div>
-  </row>
-  <row>
-    <div>
-     <form action="/register">
-       <button class="btn btn-primary" type="submit">Register</button>
-     </form>
-    </div>
-  </row>
+  <hr>
+
+  <div>
+    <form action="/register">
+      <button class="btn btn-primary" type="submit">Register</button>
+    </form>
   
-  <row>
-    <div>
-     <form action="/login_form">
+    <hr>
+  
+    <form action="/login_form">
      <button class="btn btn-primary" type="submit">Log In</button>
-     </form>
-    </div>  
-  </row>
+    </form>
+
+  </div>  
 </div>
-
-<script src="http://code.jquery.com/jquery.js"></script>
-<script src="/static/mmh.js"></script>
-
 {% endblock %}
 
 

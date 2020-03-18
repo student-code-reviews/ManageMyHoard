@@ -32,6 +32,13 @@ def index():
     """Show our index page."""
 
     # check to see if user is logged in
+    # user_id = session['user_id']
+
+    # if user_id is None:
+    #     return render_template('index.html')
+
+    # else:
+    #     return redirect(f'/user/{user_id}')
 
     # if not display the index page
 
@@ -204,6 +211,10 @@ def add_inv_form():
     """ Add a new inventory item """
     return render_template('inv_form.html')
 
+@app.route('/view_inv_item')
+def add_inv_item():
+    """View an individual inv_item"""
+    return render_template("view_inv_item.html")
 
 @app.route('/inventory')
 def view_inventory():
