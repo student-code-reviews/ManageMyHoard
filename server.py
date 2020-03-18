@@ -166,8 +166,11 @@ def user():
 def create_inv():
     """ Display the form for the user to enter the required info for an 
     inventory item """
-    #get the info from the form
+
+    # get the user info saved in session
     user_id = session['user_id']
+
+    #get the info from the form
     inv_name = request.form['inv_name']
     inv_type = request.form['inv_type']
     description = request.form['description']
@@ -175,6 +178,7 @@ def create_inv():
     count_per_package = request.form['count_per_package']
     manufacturer = request.form['manufacturer']
     size = request.form['size']
+
     # Not using picture path yet - just initializing it as a blank
     picture_path=""
     # do we need to process keywords into a python list?
@@ -211,10 +215,21 @@ def add_inv_form():
     """ Add a new inventory item """
     return render_template('inv_form.html')
 
-@app.route('/view_inv_item')
-def add_inv_item():
+@app.route('/view_inv_item/<int:inv_id>')
+def get_inv_item(inv_id):
     """View an individual inv_item"""
-    return render_template("view_inv_item.html")
+
+    # get the user info saved in session
+    user_id = session['user_id']
+
+    #the inv_id was passed in with the route path
+    # we can use it to query the db and get an individual inventory
+    # item from the inventory table.
+    inv_item = Inventory.query.get(inv_id)
+    
+    #return that info to be displayed on the view_inv_item.html page
+
+    return render_template("view_inv_item.html", inv_item=inv_item)
 
 @app.route('/inventory')
 def view_inventory():
@@ -279,6 +294,22 @@ def view_projects():
     
     """ Show all the projects for a particular user"""
     return render_template('projects.html',user=user, projects=projects)
+
+@app.route('/view_proj_item/<int:project_id>')
+def get_proj_item(project_id):
+    """View an individual inv_item"""
+
+    # get the user info saved in session
+    user_id = session['user_id']
+
+    #the inv_id was passed in with the route path
+    # we can use it to query the db and get an individual inventory
+    # item from the inventory table.
+    proj_item = Project.query.get(project_id)
+    
+    #return that info to be displayed on the view_inv_item.html page
+
+    return render_template("view_proj_item.html", proj_item=proj_item)
 
 @app.route('/search')
 def search():

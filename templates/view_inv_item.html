@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+  <title>{{inv_item.inv_id}}  {{inv_item.inv_name}}</title>
+{% block body %}
+
+<div class+"container">
+
+  <h2 class="indiv_inv_heading">Inventory Item</h2>
+
+  <div class="form-group">
+    <div>
+        <p><b>ID:</b>{{ inv_item.inv_id }}</p>
+    </div>
+    <div>
+      <p><b>Name:</b>{{ inv_item.inv_name }}</p>
+    </div>
+    <div>
+      <p><b>Type:</b>{{ inv_item.inv_type }}</p>
+    </div>
+    <div>
+      <p><b>Size:</b>{{ inv_item.size }}</p>
+    </div>
+    <div>
+      <p><b>Price:</b>{{ inv_item.price }}</p>
+    </div>
+    <div>
+      <p><b>Amt/Package:</b>{{ inv_item.count_per_package }}</p>
+    </div>
+    <div>
+      <p><b>Description:</b>{{ inv_item.description }}</p>
+    </div>
+  </div>
+
+</form>
+{% endblock %}

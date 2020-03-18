@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+  <title>{{proj_item.project_id}}  {{proj_item.name}}</title>
+{% block body %}
+
+<div class+"container">
+
+  <h2 class="indiv_proj_heading">Project</h2>
+
+  <div class="table form-group">
+    <div>
+        <p><b>ID:</b>{{ proj_item.project_id }}</p>
+    </div>
+    <div>
+      <p><b>Name:</b>{{ proj_item.name }}</p>
+    </div>
+    <div>
+      <p><b>Status:</b>{{ proj_item.status }}</p>
+    </div>
+    <div>
+      <p><b>Description:</b>{{ proj_item.description }}</p>
+    </div>
+     <div>
+      <p><b>Tools:</b>{{ proj_item.tool_list}}</p>
+    </div>
+    <div>
+      <p><b>Supplies:</b>{{ proj_item.supply_list }}</p>
+    </div>
+    <div>
+      <p><b>Directions:</b>{{ proj_item.directions }}</p>
+    </div>
+    <div>
+      <p><b>Keywords:</b>{{ proj_item.keywords }}</p>
+
+    </div>
+    <div>
+      <p><b>URL:</b>{{ proj_item.URL_link }}</p>
+    </div>
+   
+  </div>
+
+</form>
+{% endblock %}
