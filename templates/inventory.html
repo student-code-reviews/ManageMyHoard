@@ -1,82 +1,59 @@
 {% extends 'base.html' %}
   <title>Inventory</title>
 {% block body %}
+<div class="container">
+<h2 class="inventory-heading">Inventory</h2>
+  <form class="inventory" method="POST">
+    <table class="table">
+      <h3>Tools</h3>
+        
+          <tr class="table-row">
+            <th>Name</th>
+            <th>Size</th>
+            <th>Price</th>
+            <th>Amt/Pkg</th>
+          </tr>
+            {% for inv_item in inventory %}
+              {% if inv_item.inv_type == 't' %}
+                <tr>
+                  <td>{{ inv_item.inv_name }}</td>
+                  <td>{{ inv_item.size }}</td>
+                  <td>{{ inv_item.price }}</td>
+                  <td>{{inv_item.count_per_package}}</td>
+                </tr>
+              {% endif %}
+            
+            {% endfor %}
+        
+      </table>
+      <div><br></div>
 
-<form class="inventory" method="POST">
-
-  <h2 class="inventory-heading">Inventory</h2>
-  
-
-  <div class="form-group">
-    
-    <div id="resp-table" style="overflow-x:auto;">
-      <div id="resp-table-caption">Tools</div>
-        <div id="resp-table-header">
-          <div class="table-header-cell">
-          Name
-          </div>
-          <div class="table-header-cell">
-          Size
-          </div>
-          <div class="table-header-cell">
-          Price
-          </div>
-          <div class="table-header-cell">
-          Amt/Pkg
-          </div>
-
-        </div>
-        <div id="resp-table-body">
-
+  <table class="table">
+    <h3>Supplies</h3>
+          <tr>
+            <th>Name</th>
+            <th>Size</th>
+            <th>Price</th>
+            <th>Amt/Pkg</th>
+          </tr>
           {% for inv_item in inventory %}
-            {% if inv_item.inv_type == 't' %}
-              <div class="resp-table-row">
-                <div class="table-body-cell">{{ inv_item.inv_name }}</div>
-                <div class="table-body-cell">{{ inv_item.size }}</div>
-                <div class="table-body-cell">{{ inv_item.price }}</div>
-                <div class="table-body-cell">{{inv_item.count_per_package}}</div>
-              </div>
+            {% if inv_item.inv_type == 's' %}
+              <tr>
+                <td>{{ inv_item.inv_name }}</td>
+                <td>{{ inv_item.size }}</td>
+                <td>{{ inv_item.price }}</td>
+                <td>{{inv_item.count_per_package}}</td>
+              </tr>
             {% endif %}
-          
+            
           {% endfor %}
         </div>
-    </div>
-    <div><br></div>
-    <div id="resp-table">
-      <div id="resp-table-caption">Supplies</div>
-        
-        <div id="resp-table-header">
-          <div class="table-header-cell">
-          Name
-          </div>
-          <div class="table-header-cell">
-          Size
-          </div>
-          <div class="table-header-cell">
-          Price
-          </div>
-          <div class="table-header-cell">
-          Amt/Pkg
-          </div>
-        </div>
-        {% for inv_item in inventory %}
-          {% if inv_item.inv_type == 's' %}
-            <div class="resp-table-row">
-              <div class="table-body-cell">{{ inv_item.inv_name }}</div>
-              <div class="table-body-cell">{{ inv_item.size }}</div>
-              <div class="table-body-cell">{{ inv_item.price }}</div>
-              <div class="table-body-cell">{{inv_item.count_per_package}}</div>
-            </div>
-          {% endif %}
-          
-        {% endfor %}
       </div>
+    </table>
+
+    <div>
+      <a href="/add_inv_form" class="btn btn-info" role="button">Add Inventory</a>
     </div>
-
-  <div>
-    <a href="/add_inv_form" class="btn btn-info" role="button">Add Inventory</a>
-    
-  </div>
-
-</form>
+  </form>
+</div>
 {% endblock %}

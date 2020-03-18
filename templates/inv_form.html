@@ -3,74 +3,80 @@
 {% block body %}
 
 <h2 class="inventory-heading">Add Inventory</h2>
-<form class="add_inv" action="add_inv" method="POST">
-
- 
+<div class="containter">
+  <form class="add_inv" action="add_inv" method="POST">
     <div class="form-group">
-        <div class="form-group">
-            <label for="inv-name-data">Name</label>
-            <input type="text"
-                   name="inv_name"
-                   id="inv-name-data"
-                   placeholder="Name of your Item"
-                   required
-                   autofocus>
-        </div>
-        <div class="form-group">
-            <label for="inv-type-data">Type:</label>
-            <select name="inv_type">
-                <option value="s">Supply</option>
-                <option value="t">Tool</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="size-data">Size:</label>
-            <input type="text"
-                   name="size"
-                   id="size-data"
-                   placeholder="">
-        </div>
-        <div class="form-group">
-            <label for="inv-price-data">Price:</label>
-            <input type="text"
-                   name="price"
-                   id="inv-price-data"
-                   placeholder="Cost of this item">
-        </div>
-        <div class="form-group">
-            <label for="inv_pkg_count">Count per Package:</label>
-            <input type="text"
-                   name="count_per_package"
-                   id="inv_pkg_count"
-                   placeholder="# of items/package">
-        </div>
-        <div class="form-group">
-            <label for="manufacturer-data">Manufacturer:</label>
-            <input type="text"
-                   name="manufacturer"
-                   id="manufacturer-data">
-        </div>
-        <div class="form-group">
-            <label for="description-data">Description:</label>
-            <textarea type="text"
-                      name="description"
-                      id="description-data"
-                      placeholder="Describe this tool or supply">
-            </textarea>
+        <label for="inv-name-data">Name</label>
+        <input type="text"
+               name="inv_name"
+               id="inv-name-data"
+               placeholder="Name of your Item"
+               required
+               autofocus
+               class="form-control">
+    </div>
+    <div class="form-group">
+        <label for="inv-type-data">Type:</label>
+        <select name="inv_type" class="form-control">
+            <option value="s">Supply</option>
+            <option value="t">Tool</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="size-data">Size:</label>
+        <input type="text"
+               name="size"
+               id="size-data"
+               placeholder=""
+               class="form-control">
+    </div>
+    <div class="form-group">
+        <label for="inv-price-data">Price:</label>
+        <input type="text"
+               name="price"
+               id="inv-price-data"
+               placeholder="Cost of this item"
+               class="form-control">
+    </div>
+    <div class="form-group">
+        <label for="inv_pkg_count">Count per Package:</label>
+        <input type="text"
+               name="count_per_package"
+               id="inv_pkg_count"
+               placeholder="# of items/package"
+               class="form-control">
+    </div>
+    <div class="form-group">
+        <label for="manufacturer-data">Manufacturer:</label>
+        <input type="text"
+               name="manufacturer"
+               id="manufacturer-data" 
+               class="form-control">
+    </div>
+    <div class="form-group">
+        <label for="description-data">Description:</label>
+        <textarea type="text"
+                  name="description"
+                  id="description-data"
+                  placeholder="Describe this tool or supply"
+                  class="form-control">
+        </textarea>
 
-        </div>
-        <div class="form-group">
-            <label for="keywords-data">Keywords:</label>
-            <input type="text"
-                   name="keywords"
-                   id="keywords-data-data"
-                   placeholder="Tags to describe item">
-        </div class="form-group">
-        <div>
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </div>      
+    </div>
+    <div class="form-group">
+        <label for="keywords-data">Keywords:</label>
+        <input type="text"
+               name="keywords"
+               id="keywords-data-data"
+               placeholder="Tags to describe item"
+               class="form-control">
+    </div>
+    <div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </div>      
 
     </div>
 
- </form>
+  </form>
+</div>
 {% endblock %}
