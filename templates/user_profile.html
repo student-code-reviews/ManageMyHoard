@@ -9,29 +9,32 @@
   <div class="form-group">
    
    <div>
-       Name: {{ user.fname }} {{user.lname}}
-       <br>
-       Username: {{user.username}}
-
-       Email: {{ user.email }}
-       <br>
-       <br>
+      <div>
+        <p>Name: {{ user.fname }} {{user.lname}}</p>
+      </div>
+      <div>
+        <p>Username: {{user.username}}</p>
+      </div>
+      <div>
+        <p>Email: {{ user.email }}</p>
+      </div>
+       <hr>
+       <hr>
     </div>
     <div>
-       <table>
-         <tr>
-           <th>Projects</th>
-           <th>Status</th>
-           
-         </tr>
-         {% for project in projects %}
-           <tr>
-             <td>{{ project.name }}</td>
-             <td>{{ project.status }}</td>
-           </tr>
-         {% endfor %}
-       </table>
-   </div>
+      <table class="table">
+        <tr>
+          <th>Projects</th>
+          <th>Status</th>
+        </tr>
+        {% for project in projects %}
+        <tr>
+          <td>{{ project.name }}</td>
+          <td>{{ project.status }}</td>
+        </tr>
+        {% endfor %}
+      </table>
+    </div>
   </div>
 
 </form>

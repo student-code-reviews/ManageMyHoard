@@ -6,16 +6,18 @@
   <form class="projects" method="POST">
     <div class="form-group" style="overflow-x:auto;">
       <div>
-         <table>
+         <table class="table">
            <tr>
              <th>Projects</th>
              <th>Status</th>
+             <th>Description</th>
              
            </tr>
            {% for project in projects %}
              <tr>
                <td>{{ project.name }}</td>
                <td>{{ project.status }}</td>
+               <td>{{project.description}}</td>
              </tr>
            {% endfor %}
          </table>
