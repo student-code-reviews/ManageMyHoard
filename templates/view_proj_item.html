@@ -2,41 +2,52 @@
   <title>{{proj_item.project_id}}  {{proj_item.name}}</title>
 {% block body %}
 
-<div class+"container">
+<div class="container">
 
   <h2 class="indiv_proj_heading">Project</h2>
 
-  <div class="table form-group">
-    <div>
-        <p><b>ID:</b>{{ proj_item.project_id }}</p>
-    </div>
-    <div>
-      <p><b>Name:</b>{{ proj_item.name }}</p>
-    </div>
-    <div>
-      <p><b>Status:</b>{{ proj_item.status }}</p>
-    </div>
-    <div>
-      <p><b>Description:</b>{{ proj_item.description }}</p>
-    </div>
-     <div>
-      <p><b>Tools:</b>{{ proj_item.tool_list}}</p>
-    </div>
-    <div>
-      <p><b>Supplies:</b>{{ proj_item.supply_list }}</p>
-    </div>
-    <div>
-      <p><b>Directions:</b>{{ proj_item.directions }}</p>
-    </div>
-    <div>
-      <p><b>Keywords:</b>{{ proj_item.keywords }}</p>
+  <table class="table table-hover">
+    <!-- <tr>
+      <th> </th>
+      <th> </th>
+    </tr> -->
+    <tr>
+    
+        <th>ID:</th>
+        <td>{{ proj_item.project_id }}</td>
+    </tr>
 
-    </div>
-    <div>
-      <p><b>URL:</b>{{ proj_item.URL_link }}</p>
-    </div>
-   
-  </div>
+    <tr>
+      <th>Name:</th>
+      <td>{{ proj_item.name }}</td>
+    </tr>
+    <tr>
+      <th>Status:</th>
+      <td>{{ proj_item.status }}</td>
+    </tr>
+    <tr>
+      <th>Description:</th>
+      <td>{{ proj_item.description }}</td>
+    </tr>
+    <tr>
+      <th>Tools:</th>
+      <td>{{ proj_item.tool_list}}</td>
+    </tr>
+    <tr>
+      <th>Supplies:</th>
+      <td>{{ proj_item.supply_list }}</td>
+    </tr>
+    <tr>
+      <th>Directions:</th>
+      <td>{{ proj_item.directions }}</td>
+    </tr>
+    <tr>
+      <th>Keywords:</th><td>{{ proj_item.keywords }}</td>
+    </tr>
+    <tr>
+      <th>URL:</th><td>{{ proj_item.URL_link }}</td>
+    </tr>
+  </table>
 
-</form>
+</div>
 {% endblock %}
