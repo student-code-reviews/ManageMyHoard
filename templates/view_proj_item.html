@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
-  <title>{{proj_item.project_id}}  {{proj_item.name}}</title>
+{% block title %}
+{{proj_item.project_id}}  {{proj_item.name}}
+{% endblock %}
 {% block body %}
 
 <div class="container">
