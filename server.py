@@ -78,29 +78,20 @@ def login():
     user_email = request.form.get('email')
     user_password = request.form.get('password')
 
-    QUERY = User.query.filter_by(email=user_email).first()
+    
 
-    if QUERY is None:
-        flash('User does not exist.')
+    user = User.query.filter_by(email=request.form.get('email')).first()
+        
+    if user.login(request.form.get('password')):
+        app.logger.info('Login successful ...')
+        session['user_id'] = user.user_id
+        flash('Login successful.')
+        return redirect(f'/user/{ user.user_id }')
+    else:
+        app.logger.info('Login failed!')
         return redirect('/login_form')
 
-    else:
-        QUERY = User.query.filter_by(email=user_email).first()
-
-        if QUERY.password == user_password:
-            session['user_id'] = QUERY.user_id
-            user_id = session['user_id']
-            session["logged_in_customer_email"] = user_email
-            session['logged_in_user_id'] = user_id
-            flash('Login successful.')
-            return redirect(f'/user/{ user_id }')
-
-        else:
-            flash(f'Invalid password. {password}')
-            app.logger.info(f'Login unsuccessful: {user_email}')
-            return redirect('/login_form')
     
-           
 
 
 @app.route("/logout")
@@ -134,8 +125,14 @@ def new_user():
                     fname=fname,
                     lname=lname)
 
-    db.session.add(new_user)
-    db.session.commit()
+    
+    #hashing password before storing it
+    new_user.create_hashedpw(password)
+
+    new_user.save()
+
+    # db.session.add(new_user)
+    # db.session.commit()
 
     flash(f"User {email} added.")
     return redirect("/")
@@ -202,8 +199,9 @@ def create_inv():
     
 
     #add to session & commit
-    db.session.add(new_inv)
-    db.session.commit()
+    # db.session.add(new_inv)
+    # db.session.commit()
+    new_inf.save()
 
     flash(f"Inventory Item: {inv_name} added.")
 
@@ -278,8 +276,9 @@ def add_project():
                        URL_link=URL_link)
 
     #add to session & commit
-    db.session.add(new_proj)
-    db.session.commit()
+    # db.session.add(new_proj)
+    # db.session.commit()
+    new_proj.save()
 
     flash(f"Project: {name} added.")
 

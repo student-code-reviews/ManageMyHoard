@@ -2,6 +2,7 @@
 """Models and database functions for MMH Hackbright project."""
 
 from flask_sqlalchemy import SQLAlchemy
+from werkzeug.security import generate_password_hash, check_password_hash
 
 db = SQLAlchemy()
 
@@ -9,7 +10,13 @@ db = SQLAlchemy()
 ##############################################################################
 # Model definitions
 
-class User(db.Model):
+class ModelMixin:
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
+
+
+class User(ModelMixin, db.Model):
     """User of MHH website"""
 
     __tablename__ = "users"
@@ -17,7 +24,7 @@ class User(db.Model):
     user_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     username = db.Column(db.String(40), nullable=False)
     email = db.Column(db.String(64), nullable=False)
-    password = db.Column(db.String(64), nullable=False)
+    password = db.Column(db.String, nullable=False)
     fname = db.Column(db.String(50), nullable = False)
     lname = db.Column(db.String(50), nullable = False)
 
@@ -41,10 +48,16 @@ class User(db.Model):
     #     user = User()
     #     return user
 
+    def create_hashedpw(self, password):
+        self.password = generate_password_hash(password)
+
+    def login(self, password):
+        return check_password_hash(self.password, password)
 
 
 
-class Inventory(db.Model):
+
+class Inventory(ModelMixin, db.Model):
     """Table containing each item in inventory (whether tool or supply)"""
     __tablename__ = "inventory"
 
@@ -80,7 +93,7 @@ class Inventory(db.Model):
                     >"""
 
 
-class Project(db.Model):
+class Project(ModelMixin, db.Model):
     """ Table containing all the projects belonging to each user
     """
     __tablename__ = "projects"
