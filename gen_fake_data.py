@@ -39,6 +39,7 @@ def load_users(amount_to_generate):
         email = faker.email()
         print(f'email: {email}')
         password = faker.password(length=10, special_chars=True, digits=True, upper_case=True, lower_case=True)
+
         print(f'passw: {password}')
 
         username = fname[0] + lname
@@ -53,7 +54,7 @@ def load_users(amount_to_generate):
                     password=password)
         i += 1
    
-   
+        user.create_hashedpw(password)
 
         # Add the User object to the session so it will be stored.
         db.session.add(user)
@@ -194,7 +195,7 @@ def load_projects():
                 s += 1
             print("supply_list=",supply_list)
 
-            desc_length = random.randrange(1,10)
+            desc_length = random.randrange(1,5)
             # make a varying length text block for directions
             directions = ""
             for d in range(desc_length):
