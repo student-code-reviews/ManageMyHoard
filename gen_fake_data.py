@@ -1,9 +1,7 @@
 from faker import Faker
 from sqlalchemy import func
-from model import User
-from model import Inventory
-from model import Project
-from model import connect_to_db, db
+from model import *
+
 from server import app
 from pandas_ods_reader import read_ods
 import csv
@@ -25,7 +23,6 @@ def load_users(amount_to_generate):
     # we won't be trying to add duplicate users
     User.query.delete()
 
-    i =0
     user_id = 0
     for i in range(amount_to_generate):
         # Generate fake User information.
@@ -52,8 +49,7 @@ def load_users(amount_to_generate):
                     lname=lname,
                     email=email,
                     password=password)
-        i += 1
-   
+
         user.create_hashedpw(password)
 
         # Add the User object to the session so it will be stored.

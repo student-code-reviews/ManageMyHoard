@@ -81,7 +81,7 @@ def login():
     
 
     user = User.query.filter_by(email=request.form.get('email')).first()
-        
+
     if user.login(request.form.get('password')):
         app.logger.info('Login successful ...')
         session['user_id'] = user.user_id
@@ -143,20 +143,20 @@ def user_info(user_id):
     """Display user info."""
   
     user = User.query.get(user_id)
-    inventory = user.inventory
-    projects = user.projects
 
-    return render_template('user_profile.html', user=user, inventory=inventory,
-                                             projects=projects)
+    return render_template('user_profile.html', user=user)
 
 
 @app.route('/user')
 def user():
     """ NOTE TO SELF - do I NEED two routes???"""
-    user_id = session['user_id']
-    user = User.query.get(user_id)
+    user_id = session.get('user_id')
+    if user_id:
+        user = User.query.get(user_id)
 
-    return redirect(f'/user/{user_id}')
+        return redirect(f'/user/{user_id}')
+    else:
+        return redirect('/login')
 
 
 @app.route('/add_inv', methods=['POST'])
@@ -165,7 +165,7 @@ def create_inv():
     inventory item """
 
     # get the user info saved in session
-    user_id = session['user_id']
+    user_id = session.get('user_id')
 
     #get the info from the form
     inv_name = request.form['inv_name']
@@ -173,7 +173,7 @@ def create_inv():
     description = request.form['description']
     price = request.form['price']
     count_per_package = request.form['count_per_package']
-    manufacturer = request.form['manufacturer']
+    manufacturer = request.form['manufacturer']['user_id']
     size = request.form['size']
 
     # Not using picture path yet - just initializing it as a blank
@@ -183,25 +183,13 @@ def create_inv():
 
     
     #create the inv item
-    new_inv = Inventory(user_id=user_id,
-                        inv_name=inv_name,
-                        inv_type=inv_type,
-                        description=description,
-                        price=price,
-                        count_per_package=count_per_package,
-                        manufacturer=manufacturer,
-                        size=size,
-                        picture_path=picture_path,
-                        keywords=keywords)
-
-    
-
-    
+    # if the form fields align with the model fields you can do this ...
+    new_inv = Inventory(**request.form)
 
     #add to session & commit
     # db.session.add(new_inv)
     # db.session.commit()
-    new_inf.save()
+    new_inv.save()
 
     flash(f"Inventory Item: {inv_name} added.")
 
@@ -213,7 +201,7 @@ def add_inv_form():
     """ Add a new inventory item """
     return render_template('inv_form.html')
 
-@app.route('/view_inv_item/<int:inv_id>')
+@app.route('/inventory/<int:inv_id>')
 def get_inv_item(inv_id):
     """View an individual inv_item"""
 
@@ -244,12 +232,12 @@ def view_inventory():
     
     return render_template('inventory.html', user=user, inventory=inventory)
 
-@app.route('/add_proj_form')
+@app.route('/projects/new')
 def add_proj_form():
     return render_template('proj_form.html')
 
 
-@app.route('/add_project', methods=['POST'])
+@app.route('/projects', methods=['POST'])
 def add_project():
     """ Add a new project """
     user_id = session['user_id']
@@ -292,9 +280,9 @@ def view_projects():
     projects = user.projects
     
     """ Show all the projects for a particular user"""
-    return render_template('projects.html',user=user, projects=projects)
+    return render_template('projects.html', user=user)
 
-@app.route('/view_proj_item/<int:project_id>')
+@app.route('/projects/<int:project_id>')
 def get_proj_item(project_id):
     """View an individual inv_item"""
 

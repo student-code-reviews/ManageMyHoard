@@ -69,7 +69,7 @@ class Inventory(ModelMixin, db.Model):
     price = db.Column(db.Float(), nullable=True)
     count_per_package = db.Column(db.Integer, nullable=True)
     manufacturer = db.Column(db.String(40), nullable=True)
-    size = db.Column(db.String(25), nullable = True)
+    size = db.Column(db.String(25), nullURL_linkable = True)
     picture_path = db.Column(db.String(200), nullable=True)
     keywords = db.Column(db.String(500), nullable=True)
 
@@ -102,7 +102,7 @@ class Project(ModelMixin, db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey("users.user_id"))
     status = db.Column(db.String(1), nullable=True)
     name = db.Column(db.String(200), nullable=False)
-    description = db.Column(db.String(1000), nullable=True)
+    description = db.Column(db.Text, nullable=True)
     
     # Store the Path to the picture
     picture_path = db.Column(db.String(100), nullable=True)
@@ -110,8 +110,8 @@ class Project(ModelMixin, db.Model):
 
     tool_list = db.Column(db.String(500), nullable=True)
     supply_list = db.Column(db.String(500), nullable=True)
-    directions = db.Column(db.String(1500), nullable=True)
-    URL_link = db.Column(db.String(300), nullable=True)
+    directions = db.Column(db.Text, nullable=True)
+    url = db.Column(db.String(300), nullable=True)
     
     # Define relationship to user
     # user = db.relationship("User",
